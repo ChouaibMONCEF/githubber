@@ -1,6 +1,5 @@
 import { createContext, useReducer } from "react"
 import githubReducer from "./GithubReducer"
-import { URLSearchParamsInit } from "react-router-dom"
 
 const GithubContext = createContext()
 
@@ -31,6 +30,7 @@ export const GithubProvider = ({ children }) => {
     })
 
     const { items } = await response.json()
+    console.log(items)
 
     dispatch({
       type: "GET_USERS",
@@ -62,15 +62,18 @@ export const GithubProvider = ({ children }) => {
   const getUserRepos = async (login) => {
     setIsLoading()
     const params = new URLSearchParams({
-      sort: 'created',
+      sort: "created",
       per_page: 10,
     })
 
-    const response = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    })
+    const response = await fetch(
+      `${GITHUB_URL}/users/${login}/repos?${params}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    )
 
     if (response.status === 404) {
       window.location = "/notfound"
@@ -83,7 +86,6 @@ export const GithubProvider = ({ children }) => {
       })
     }
   }
-
   const clearUsers = () => {
     dispatch({
       type: "CLEAR_USERS",

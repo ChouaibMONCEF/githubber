@@ -31,10 +31,13 @@ function User({ match }) {
   useEffect(() => {
     getUser(params.login)
     getUserRepos(params.login)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   if (isLoading) {
     return <Spinner />
   }
+
   return (
     <>
       <div className='w-full mx-auto lg:w-10/12'>
